@@ -35,7 +35,7 @@ public:
 
 	Node<ValueType>* find(const ValueType &inValue);
 
-	inline void remove(const ValueType &inValue) 
+	inline void remove(const ValueType &inValue)
 	{
 		removeNode(m_root, inValue);
 	}
@@ -54,7 +54,7 @@ public:
 		return findMin(m_root)->value;
 	}
 
-	inline ValueType getMax() 
+	inline ValueType getMax()
 	{
 		return findMax(m_root)->value;
 	}
@@ -94,7 +94,7 @@ private:
 	Node<ValueType>* removeNode(Node<ValueType>* p, const ValueType& inValue);
 	Node<ValueType>* findMin(Node<ValueType>* p);
 	Node<ValueType>* findMax(Node<ValueType>* p);
-	bool isThisBST(Node<ValueType>* p)
+	bool isThisBST(Node<ValueType>* p);
 };
 
 
@@ -164,7 +164,7 @@ template<class ValueType> std::vector<ValueType> BST<ValueType>::getPreOrder()
 		outVector[i] = cur->value;
 		++i;
 		s.pop();
-		
+
 
 		if (cur->right)
 			s.push(cur->right);
@@ -217,11 +217,11 @@ template<class ValueType> std::vector<ValueType> BST<ValueType>::getPostOrder()
 		s1.pop();
 
 		if (cur->left)
-			s1.push(cur->left);
+		s1.push(cur->left);
 		if (cur->right)
 			s1.push(cur->right);
 	}
-		
+
 	std::vector<ValueType> outVector(s2.size());
 	for (int i = 0; i < outVector.size(); ++i)
 	{
@@ -255,7 +255,7 @@ template<class ValueType> Node<ValueType>* BST<ValueType>::removeNode(Node<Value
 	else if (p->value < inValue)
 		p->right = removeNode(p->right, inValue);
 	else if (p->value > inValue)
-		p->left = remove(p->left, inValue);
+		p->left = removeNode(p->left, inValue);
 	else
 	{
 		--m_size;
@@ -273,14 +273,14 @@ template<class ValueType> Node<ValueType>* BST<ValueType>::removeNode(Node<Value
 			return temp;
 		}
 
-		Node<ValueType>* temp = getMin(p->right);
+		Node<ValueType>* temp = findMin(p->right);
 		p->value = temp->value;
 		p->right = removeNode(p->right, p->value);
 	}
 	return p;
 }
 
-template<class ValueType> Node<ValueType>* BST<ValueType>::findMin(Node<ValueType>*)
+template<class ValueType> Node<ValueType>* BST<ValueType>::findMin(Node<ValueType>* p)
 {
 	if (!p)
 		throw std::runtime_error("Trying to get min of empty BST");
@@ -301,7 +301,7 @@ template<class ValueType> Node<ValueType>* BST<ValueType>::findMax(Node<ValueTyp
 }
 
 template<class ValueType> bool BST<ValueType>::isThisBST(Node<ValueType>* p)
-{
+	{
 	if (!p)
 		return true;
 	if (p->left && p->left->value >= p->value)
@@ -310,7 +310,7 @@ template<class ValueType> bool BST<ValueType>::isThisBST(Node<ValueType>* p)
 		return false;
 	if (!isThisBST(p->left) || !isThisBST(p->right))
 		return false;
-	
+
 	return true;
 }
 

@@ -63,6 +63,8 @@ public:
 	{
 		if (m_root)
 			destroy(m_root);
+		m_root = nullptr;
+		m_size = 0;
 	}
 
 	inline size_t getSize()
@@ -262,19 +264,22 @@ template<class ValueType> Node<ValueType>* BST<ValueType>::removeNode(Node<Value
 
 		if (!p->left)
 		{
-			Node<ValueType>* temp = p->right;
+			Node<ValueType>* temp = p->right;		
 			delete p;
 			return temp;
 		}
 		if (!p->right)
 		{
+
 			Node<ValueType>* temp = p->left;
 			delete p;
 			return temp;
 		}
 
+		
 		Node<ValueType>* temp = findMin(p->right);
 		p->value = temp->value;
+		++m_size;
 		p->right = removeNode(p->right, p->value);
 	}
 	return p;
